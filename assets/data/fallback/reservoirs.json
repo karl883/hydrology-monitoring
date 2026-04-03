@@ -1,0 +1,91 @@
+{
+  "reservoirs": [
+    {
+      "id": "res_001",
+      "name": "宝珠寺水库",
+      "code": "BZS001",
+      "basin": "嘉陵江流域",
+      "location": {
+        "lat": 32.1234,
+        "lng": 105.6789
+      },
+      "capacity": 256000,
+      "status": "normal",
+      "color": "#1890ff",
+      "description": "嘉陵江上游重要控制性水库"
+    },
+    {
+      "id": "res_002",
+      "name": "紫坪铺水库",
+      "code": "ZPP002",
+      "basin": "岷江流域",
+      "location": {
+        "lat": 31.2345,
+        "lng": 103.7890
+      },
+      "capacity": 112400,
+      "status": "normal",
+      "color": "#52c41a",
+      "description": "岷江上游骨干水利工程"
+    },
+    {
+      "id": "res_003",
+      "name": "亭子口水库",
+      "code": "TZK003",
+      "basin": "嘉陵江流域",
+      "location": {
+        "lat": 32.3456,
+        "lng": 106.8901
+      },
+      "capacity": 412000,
+      "status": "normal",
+      "color": "#faad14",
+      "description": "嘉陵江中游控制性水利枢纽"
+    },
+    {
+      "id": "res_004",
+      "name": "瀑布沟水库",
+      "code": "PBG004",
+      "basin": "大渡河流域",
+      "location": {
+        "lat": 29.4567,
+        "lng": 102.9012
+      },
+      "capacity": 532000,
+      "status": "normal",
+      "color": "#ff4d4f",
+      "description": "大渡河干流重要梯级电站"
+    },
+    {
+      "id": "res_005",
+      "name": "二滩水库",
+      "code": "ET005",
+      "basin": "雅砻江流域",
+      "location": {
+        "lat": 26.5678,
+        "lng": 101.0123
+      },
+      "capacity": 5800000,
+      "status": "normal",
+      "color": "#13c2c2",
+      "description": "雅砻江下游巨型水电站"
+    },
+    {
+      "id": "res_006",
+      "name": "向家坝水库",
+      "code": "XJB006",
+      "basin": "金沙江流域",
+      "location": {
+        "lat": 28.6789,
+        "lng": 104.1234
+      },
+      "capacity": 5100000,
+      "status": "normal",
+      "color": "#722ed1",
+      "description": "金沙江下游重要水利枢纽"
+    }
+  ],
+  "count": 6,
+  "updated_at": "2026-04-04T02:50:00.000Z",
+  "source": "fallback"
+}

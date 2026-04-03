@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水文监测分析系统 - 真实数据版</title>
+    <!-- ECharts图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 本地CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 顶部导航栏 -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">H</div>
+                        <div class="logo-text">
+                            <div class="logo-title">水文监测分析系统</div>
+                            <div class="logo-subtitle">真实数据版本</div>
+                        </div>
+                    </a>
+                    <span class="version-badge">v3.0</span>
+                </div>
+                
+                <div class="data-status">
+                    <div class="update-info">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>最后更新: <span id="lastUpdateTime">加载中...</span></span>
+                    </div>
+                    <div class="data-source">
+                        <i class="fas fa-database"></i>
+                        <span>数据源: 四川省水文监测中心</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <!-- 数据概览卡片 -->
+            <section class="overview-section" id="overviewCards">
+                <!-- 通过JavaScript动态生成 -->
+            </section>
+            
+            <!-- 筛选控制面板 -->
+            <section class="filter-section">
+                <div class="filter-header">
+                    <div class="filter-title">
+                        <i class="fas fa-sliders-h"></i>
+                        数据筛选控制
+                    </div>
+                    <div class="filter-actions">
+                        <button class="filter-btn secondary" id="resetFilters">
+                            <i class="fas fa-redo"></i>
+                            重置
+                        </button>
+                        <button class="filter-btn primary" id="applyFilters">
+                            <i class="fas fa-filter"></i>
+                            应用筛选
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="filter-grid">
+                    <!-- 分析指标 -->
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <i class="fas fa-chart-line"></i>
+                            分析指标
+                        </label>
+                        <select class="select-v25" id="indicatorSelect">
+                            <option value="water_level">水位 (m)</option>
+                            <option value="inflow">入库流量 (m³/s)</option>
+                            <option value="outflow">出库流量 (m³/s)</option>
+                            <option value="storage">蓄水量 (万m³)</option>
+                        </select>
+                    </div>
+                    
+                    <!-- 水库选择 -->
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <i class="fas fa-database"></i>
+                            水库选择
+                        </label>
+                        <select class="multi-select-v25" id="reservoirSelect" multiple>
+                            <!-- 通过JavaScript动态生成 -->
+                        </select>
+                        <div class="selected-count-v25" id="selectedCount">
+                            <i class="fas fa-check-circle"></i>
+                            <span>已选择 0 个水库</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 时间范围 -->
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <i class="fas fa-calendar-alt"></i>
+                            时间范围
+                        </label>
+                        <div class="time-filter-v25">
+                            <div class="time-buttons-v25">
+                                <button class="time-btn-v25 active" data-hours="24">24小时</button>
+                                <button class="time-btn-v25" data-hours="168">7天</button>
+                                <button class="time-btn-v25" data-hours="720">30天</button>
+                                <button class="time-btn-v25" data-hours="8760">2024年</button>
+                                <button class="time-btn-v25" data-hours="17520">2025年</button>
+                                <button class="time-btn-v25" data-hours="26280">2026年</button>
+                            </div>
+                            <div class="date-range-v25">
+                                <input type="date" class="date-input-v25" id="startDate" value="2026-03-01">
+                                <span>至</span>
+                                <input type="date" class="date-input-v25" id="endDate" value="2026-03-31">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 数据更新频率 -->
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            <i class="fas fa-clock"></i>
+                            更新频率
+                        </label>
+                        <select class="select-v25" id="updateFrequency">
+                            <option value="manual">手动更新</option>
+                            <option value="5min">每5分钟</option>
+                            <option value="30min" selected>每30分钟</option>
+                            <option value="1hour">每小时</option>
+                            <option value="6hour">每6小时</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 图表区域 -->
+            <section class="chart-section">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">
+                            <i class="fas fa-chart-area"></i>
+                            <span id="chartTitle">水位变化趋势分析</span>
+                        </div>
+                        <div class="chart-subtitle" id="chartSubtitle">
+                            实时监测数据，支持多水库对比分析
+                        </div>
+                    </div>
+                    <div class="chart-actions">
+                        <button class="chart-action-btn" id="toggleFullscreen">
+                            <i class="fas fa-expand"></i>
+                            全屏
+                        </button>
+                        <button class="chart-action-btn" id="exportChart">
+                            <i class="fas fa-download"></i>
+                            导出图表
+                        </button>
+                        <button class="chart-action-btn primary" id="refreshData">
+                            <i class="fas fa-sync-alt"></i>
+                            刷新数据
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-container" id="mainChart"></div>
+            </section>
+            
+            <!-- 数据表格区域 -->
+            <section class="data-section">
+                <div class="data-header">
+                    <div class="data-title">
+                        <i class="fas fa-table"></i>
+                        详细监测数据
+                    </div>
+                    <div class="data-actions">
+                        <button class="data-action-btn" id="exportTable">
+                            <i class="fas fa-file-export"></i>
+                            导出CSV
+                        </button>
+                        <button class="data-action-btn" id="toggleTableView">
+                            <i class="fas fa-list"></i>
+                            切换视图
+                        </button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>时间</th>
+                                <th>水库</th>
+                                <th>水位(m)</th>
+                                <th>入库流量(m³/s)</th>
+                                <th>出库流量(m³/s)</th>
+                                <th>蓄水量(万m³)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody">
+                            <!-- 通过JavaScript动态生成 -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <div class="pagination">
+                        <button class="page-btn" id="prevPage">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="page-info">第 <span id="currentPage">1</span> 页，共 <span id="totalPages">1</span> 页</span>
+                        <button class="page-btn" id="nextPage">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="record-count">
+                        共 <span id="totalRecords">0</span> 条记录
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- 底部状态栏 -->
+        <footer class="footer-status">
+            <div class="status-content">
+                <div class="status-item">
+                    <i class="fas fa-server"></i>
+                    <span>数据状态: <span id="dataStatus" class="status-loading">加载中...</span></span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-memory"></i>
+                    <span>缓存数据: <span id="cacheStatus">0 条</span></span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-network-wired"></i>
+                    <span>更新频率: <span id="updateStatus">每30分钟</span></span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>告警: <span id="alertStatus" class="status-normal">正常</span></span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 加载提示 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">正在加载数据...</div>
+            <div class="loading-progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 消息提示 -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- JavaScript文件 -->
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/data-loader.js"></script>
+    <script src="assets/js/charts.js"></script>
+    <script src="assets/js/table-manager.js"></script>
+    <script src="assets/js/update-manager.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
