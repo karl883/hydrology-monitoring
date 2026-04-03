@@ -72,10 +72,12 @@ class DataLoader {
     
     /**
      * 构建GitHub数据URL
+     * 使用GitHub Pages URL避免CORS问题
      */
     buildGitHubUrl(filename) {
-        const { username, repo, branch, dataPath } = CONFIG.github;
-        return `${CONFIG.dataSources.github.baseUrl}/${username}/${repo}/${branch}/${dataPath}${filename}`;
+        const { username, repo, dataPath } = CONFIG.github;
+        // 使用GitHub Pages URL，避免CORS限制
+        return `https://${username}.github.io/${repo}/${dataPath}${filename}`;
     }
     
     /**
@@ -100,10 +102,11 @@ class DataLoader {
     }
     
     /**
-     * 加载配置
+     * 加载配置（已移除，使用内置CONFIG）
      */
     async loadConfig() {
-        return this.loadData('config', 'config.json');
+        console.warn('[DataLoader] loadConfig已弃用，使用内置CONFIG');
+        return CONFIG;
     }
     
     /**

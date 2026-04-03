@@ -643,19 +643,15 @@ class UpdateManager {
                 throw new Error('数据加载器未初始化');
             }
             
-            // 加载所有必要的数据
-            const [reservoirs, timeSeries, summary, config] = await Promise.all([
+            // 加载所有必要的数据（不加载config.json）
+            const [reservoirs, timeSeries, summary] = await Promise.all([
                 dataLoader.loadReservoirs(),
                 dataLoader.loadTimeSeries(),
-                dataLoader.loadSummary(),
-                dataLoader.loadConfig()
+                dataLoader.loadSummary()
             ]);
             
             // 初始化应用
             await this.updateApplication(reservoirs, timeSeries, summary);
-            
-            // 更新配置
-            this.updateConfig(config);
             
             console.log('[UpdateManager] Initial load completed');
             this.showToast('数据加载完成', 'success');
@@ -692,12 +688,7 @@ class UpdateManager {
         }
     }
     
-    updateConfig(config) {
-        // 更新应用配置
-        if (config && config.reservoir_colors) {
-            Object.assign(CONFIG.charts.reservoirColors, config.reservoir_colors);
-        }
-    }
+    // updateConfig方法已移除，因为不需要config.json
     
     // 事件系统
     on(event, callback) {

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试数据文件URL</title>
+</head>
+<body>
+    <h1>测试数据文件URL可访问性</h1>
+    
+    <div id="results"></div>
+    
+    <script>
+        const urls = [
+            "https://raw.githubusercontent.com/karl883/hydrology-monitoring/main/data/reservoirs.json",
+            "https://raw.githubusercontent.com/karl883/hydrology-monitoring/main/data/time_series.json", 
+            "https://raw.githubusercontent.com/karl883/hydrology-monitoring/main/data/summary.json",
+            "https://karl883.github.io/hydrology-monitoring/data/reservoirs.json",
+            "https://karl883.github.io/hydrology-monitoring/data/time_series.json",
+            "https://karl883.github.io/hydrology-monitoring/data/summary.json"
+        ];
+        
+        const resultsDiv = document.getElementById('results');
+        
+        async function testUrl(url) {
+            const result = document.createElement('div');
+            result.innerHTML = `<h3>测试: ${url}</h3>`;
+            
+            try {
+                const response = await fetch(url);
+                if (response.ok) {
+                    const data = await response.json();
+                    result.innerHTML += `<p style="color: green;">✅ 成功 - Status: ${response.status}</p>`;
+                    result.innerHTML += `<pre>${JSON.stringify(data, null, 2).substring(0, 500)}...</pre>`;
+                } else {
+                    result.innerHTML += `<p style="color: red;">❌ 失败 - Status: ${response.status} ${response.statusText}</p>`;
+                }
+            } catch (error) {
+                result.innerHTML += `<p style="color: red;">❌ 错误: ${error.message}</p>`;
+            }
+            
+            resultsDiv.appendChild(result);
+        }
+        
+        // 测试所有URL
+        urls.forEach(testUrl);
+    </script>
+</body>
+</html>

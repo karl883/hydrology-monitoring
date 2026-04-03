@@ -26,8 +26,7 @@ const CONFIG = {
             baseUrl: 'https://raw.githubusercontent.com',
             reservoirs: 'reservoirs.json',
             timeSeries: 'time_series.json',
-            summary: 'summary.json',
-            config: 'config.json'
+            summary: 'summary.json'
         },
         
         // 备用数据源 (如果GitHub访问失败)
