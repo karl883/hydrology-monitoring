@@ -1,0 +1,21 @@
+﻿{
+  "reservoirs": [
+    {
+      "id": "res_001",
+      "name": "宝珠寺水库",
+      "basin": "嘉陵江流域",
+      "color": "#1890ff",
+      "status": "normal"
+    },
+    {
+      "id": "res_002", 
+      "name": "紫坪铺水库",
+      "basin": "岷江流域",
+      "color": "#52c41a",
+      "status": "normal"
+    }
+  ],
+  "count": 2,
+  "updated_at": "2026-04-04T04:05:00.000Z",
+  "_source": "manual"
+}

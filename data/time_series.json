@@ -1,0 +1,25 @@
+﻿{
+  "data": [
+    {
+      "time": "2026-03-30T10:00:00.000Z",
+      "reservoir": "宝珠寺水库",
+      "water_level": 512.5,
+      "inflow": 125.3,
+      "outflow": 98.7,
+      "storage": 215000
+    },
+    {
+      "time": "2026-03-30T11:00:00.000Z",
+      "reservoir": "宝珠寺水库",
+      "water_level": 513.2,
+      "inflow": 128.1,
+      "outflow": 102.4,
+      "storage": 216500
+    }
+  ],
+  "count": 2,
+  "start_time": "2026-03-30T10:00:00.000Z",
+  "end_time": "2026-03-30T11:00:00.000Z",
+  "updated_at": "2026-04-04T04:05:00.000Z",
+  "_source": "manual"
+}
