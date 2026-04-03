@@ -21,8 +21,8 @@ class ChartManager {
         
         // 检查ECharts是否加载
         if (typeof echarts === 'undefined') {
-            console.error('[ChartManager] ECharts未加载，无法初始化图表');
-            this.showChartError('图表库加载失败，请刷新页面或检查网络连接');
+            console.warn('[ChartManager] ECharts未加载，使用简化模式');
+            this.initSimplifiedMode();
             return;
         }
         
@@ -39,6 +39,176 @@ class ChartManager {
         window.addEventListener('resize', () => this.resize());
         
         console.log('[ChartManager] 图表管理器初始化完成');
+    }
+    
+    /**
+     * 简化模式 - 当ECharts不可用时
+     */
+    initSimplifiedMode() {
+        console.log('[ChartManager] 初始化简化模式...');
+        
+        // 显示简化图表界面
+        this.chartDom.innerHTML = `
+            <div class="simplified-chart-view">
+                <div class="simplified-header">
+                    <h3><i class="fas fa-chart-line"></i> 数据趋势图</h3>
+                    <div class="simplified-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">数据点:</span>
+                            <span class="stat-value" id="dataPointCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">时间范围:</span>
+                            <span class="stat-value" id="timeRange">24h</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="simplified-content">
+                    <div class="data-preview">
+                        <p>由于网络限制，交互式图表暂时不可用。</p>
+                        <p>数据表格功能完整可用，请查看下方表格获取详细数据。</p>
+                    </div>
+                    <div class="simplified-actions">
+                        <button class="btn-view-table" onclick="document.querySelector('.table-container').scrollIntoView({behavior: 'smooth'})">
+                            <i class="fas fa-table"></i> 查看数据表格
+                        </button>
+                        <button class="btn-refresh" onclick="location.reload()">
+                            <i class="fas fa-redo"></i> 刷新页面
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // 添加样式
+        this.addSimplifiedStyles();
+        
+        console.log('[ChartManager] 简化模式初始化完成');
+    }
+    
+    addSimplifiedStyles() {
+        const styleId = 'simplified-chart-styles';
+        if (document.getElementById(styleId)) return;
+        
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.textContent = `
+            .simplified-chart-view {
+                background: rgba(26, 43, 60, 0.5);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-lg);
+                padding: var(--spacing-lg);
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .simplified-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: var(--spacing-lg);
+                padding-bottom: var(--spacing-md);
+                border-bottom: 1px solid var(--border-light);
+            }
+            
+            .simplified-header h3 {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--text-primary);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .simplified-header h3 i {
+                color: var(--primary-color);
+            }
+            
+            .simplified-stats {
+                display: flex;
+                gap: var(--spacing-xl);
+            }
+            
+            .stat-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stat-label {
+                font-size: 12px;
+                color: var(--text-secondary);
+                margin-bottom: 4px;
+            }
+            
+            .stat-value {
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+            
+            .simplified-content {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: var(--spacing-xl) 0;
+            }
+            
+            .data-preview {
+                max-width: 400px;
+                margin-bottom: var(--spacing-xl);
+            }
+            
+            .data-preview p {
+                color: var(--text-secondary);
+                line-height: 1.6;
+                margin-bottom: var(--spacing-md);
+            }
+            
+            .simplified-actions {
+                display: flex;
+                gap: var(--spacing-md);
+            }
+            
+            .btn-view-table, .btn-refresh {
+                padding: 10px 20px;
+                border-radius: var(--radius-md);
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .btn-view-table {
+                background: rgba(24, 144, 255, 0.1);
+                border: 1px solid rgba(24, 144, 255, 0.3);
+                color: var(--primary-color);
+            }
+            
+            .btn-view-table:hover {
+                background: rgba(24, 144, 255, 0.2);
+                transform: translateY(-2px);
+            }
+            
+            .btn-refresh {
+                background: rgba(26, 43, 60, 0.8);
+                border: 1px solid var(--border-color);
+                color: var(--text-secondary);
+            }
+            
+            .btn-refresh:hover {
+                background: rgba(26, 43, 60, 0.9);
+                border-color: var(--primary-color);
+                color: var(--primary-color);
+            }
+        `;
+        document.head.appendChild(style);
     }
     
     /**

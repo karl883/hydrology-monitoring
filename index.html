@@ -6,8 +6,21 @@
     <title>水文监测分析系统 - 真实数据版</title>
     <!-- 阻止浏览器自动请求favicon -->
     <link rel="icon" href="data:,">
-    <!-- ECharts图表库 (使用unpkg CDN，避免jsdelivr连接问题) -->
+    <!-- ECharts图表库 (多个CDN备用) -->
     <script src="https://unpkg.com/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script>
+        // ECharts备用加载方案
+        if (typeof echarts === 'undefined') {
+            console.warn('ECharts主CDN加载失败，将在2秒后尝试本地备用方案...');
+            setTimeout(() => {
+                const script = document.createElement('script');
+                script.src = 'assets/js/local-echarts.js';
+                script.onload = () => console.log('本地ECharts备用方案已加载');
+                script.onerror = () => console.error('本地ECharts备用方案也失败');
+                document.head.appendChild(script);
+            }, 2000);
+        }
+    </script>
     <!-- Font Awesome图标 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- 本地CSS -->
