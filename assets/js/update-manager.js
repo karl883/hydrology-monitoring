@@ -201,6 +201,12 @@ class UpdateManager {
     
     async checkGitHubForUpdates() {
         try {
+            // 确保dataLoader已定义
+            if (typeof dataLoader === 'undefined') {
+                console.warn('[UpdateManager] dataLoader未定义，跳过GitHub检查');
+                return false;
+            }
+            
             // 获取数据摘要的最后更新时间
             const summaryUrl = dataLoader.buildGitHubUrl('summary.json');
             const response = await fetch(summaryUrl, {
@@ -228,6 +234,9 @@ class UpdateManager {
     
     getLocalLastUpdate() {
         try {
+            if (typeof dataLoader === 'undefined') {
+                return null;
+            }
             const cacheStatus = dataLoader.getCacheStatus();
             return cacheStatus.lastUpdate;
         } catch (error) {
@@ -242,6 +251,11 @@ class UpdateManager {
         this.triggerUpdateEvent('start');
         
         try {
+            // 检查dataLoader是否可用
+            if (typeof dataLoader === 'undefined') {
+                throw new Error('数据加载器未初始化');
+            }
+            
             // 加载最新数据
             const [reservoirs, timeSeries, summary] = await Promise.all([
                 dataLoader.loadReservoirs(),
@@ -269,8 +283,12 @@ class UpdateManager {
             this.triggerUpdateEvent('error', { error });
             
             this.showToast('数据更新失败: ' + error.message, 'error');
-            throw error;
+            
+            // 不抛出错误，让应用继续运行
+            return false;
         }
+        
+        return true;
     }
     
     async updateApplication(reservoirs, timeSeries, summary) {
@@ -620,6 +638,11 @@ class UpdateManager {
         try {
             this.showUpdatingStatus();
             
+            // 检查dataLoader是否可用
+            if (typeof dataLoader === 'undefined') {
+                throw new Error('数据加载器未初始化');
+            }
+            
             // 加载所有必要的数据
             const [reservoirs, timeSeries, summary, config] = await Promise.all([
                 dataLoader.loadReservoirs(),
@@ -640,8 +663,32 @@ class UpdateManager {
         } catch (error) {
             console.error('[UpdateManager] Initial load failed:', error);
             this.showToast('初始数据加载失败: ' + error.message, 'error');
+            
+            // 尝试使用备用数据
+            await this.fallbackToMockData();
         } finally {
             this.hideUpdatingStatus();
+        }
+    }
+    
+    /**
+     * 使用模拟数据作为备用
+     */
+    async fallbackToMockData() {
+        console.log('[UpdateManager] 尝试使用模拟数据...');
+        
+        try {
+            if (typeof dataFallback !== 'undefined') {
+                const mockData = await dataFallback.initializeApp();
+                await this.updateApplication(
+                    mockData.reservoirs,
+                    mockData.timeSeries,
+                    mockData.summary
+                );
+                this.showToast('正在使用模拟数据演示', 'warning');
+            }
+        } catch (error) {
+            console.error('[UpdateManager] 模拟数据也失败:', error);
         }
     }
     

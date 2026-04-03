@@ -19,6 +19,13 @@ class ChartManager {
             return;
         }
         
+        // 检查ECharts是否加载
+        if (typeof echarts === 'undefined') {
+            console.error('[ChartManager] ECharts未加载，无法初始化图表');
+            this.showChartError('图表库加载失败，请刷新页面或检查网络连接');
+            return;
+        }
+        
         // 初始化ECharts实例
         this.chart = echarts.init(this.chartDom);
         
@@ -30,6 +37,68 @@ class ChartManager {
         
         // 响应窗口大小变化
         window.addEventListener('resize', () => this.resize());
+        
+        console.log('[ChartManager] 图表管理器初始化完成');
+    }
+    
+    /**
+     * 显示图表错误信息
+     */
+    showChartError(message) {
+        this.chartDom.innerHTML = `
+            <div class="chart-error">
+                <div class="error-icon">⚠️</div>
+                <div class="error-message">${message}</div>
+                <button class="error-retry" onclick="location.reload()">刷新页面</button>
+            </div>
+        `;
+        
+        // 添加样式
+        const style = document.createElement('style');
+        style.textContent = `
+            .chart-error {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                padding: 40px;
+                text-align: center;
+                background: rgba(26, 43, 60, 0.5);
+                border-radius: var(--radius-lg);
+                border: 1px solid rgba(255, 77, 79, 0.3);
+            }
+            
+            .error-icon {
+                font-size: 48px;
+                margin-bottom: 16px;
+                color: #ff4d4f;
+            }
+            
+            .error-message {
+                color: var(--text-secondary);
+                margin-bottom: 24px;
+                max-width: 400px;
+                line-height: 1.5;
+            }
+            
+            .error-retry {
+                padding: 10px 24px;
+                background: rgba(24, 144, 255, 0.1);
+                border: 1px solid rgba(24, 144, 255, 0.3);
+                border-radius: var(--radius-md);
+                color: var(--primary-color);
+                cursor: pointer;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            }
+            
+            .error-retry:hover {
+                background: rgba(24, 144, 255, 0.2);
+                transform: translateY(-2px);
+            }
+        `;
+        document.head.appendChild(style);
     }
     
     setDefaultOption() {

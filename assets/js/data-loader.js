@@ -20,6 +20,57 @@ class DataLoader {
     }
     
     /**
+     * 从本地存储加载缓存
+     */
+    loadFromCache() {
+        try {
+            const cached = localStorage.getItem('hydrology_data_cache');
+            if (cached) {
+                const cacheData = JSON.parse(cached);
+                // 恢复缓存数据
+                Object.entries(cacheData).forEach(([key, value]) => {
+                    this.cache.set(key, value);
+                });
+                console.log('[DataLoader] 从本地存储加载缓存:', Object.keys(cacheData).length, '项');
+            }
+        } catch (error) {
+            console.warn('[DataLoader] 加载缓存失败:', error);
+        }
+    }
+    
+    /**
+     * 保存缓存到本地存储
+     */
+    saveToCache() {
+        try {
+            const cacheObj = Object.fromEntries(this.cache);
+            localStorage.setItem('hydrology_data_cache', JSON.stringify(cacheObj));
+        } catch (error) {
+            console.warn('[DataLoader] 保存缓存失败:', error);
+        }
+    }
+    
+    /**
+     * 清理过期缓存
+     */
+    cleanupCache() {
+        const now = Date.now();
+        let cleaned = 0;
+        
+        for (const [key, value] of this.cache.entries()) {
+            if (now - value.timestamp > CONFIG.cache.ttl) {
+                this.cache.delete(key);
+                cleaned++;
+            }
+        }
+        
+        if (cleaned > 0) {
+            console.log(`[DataLoader] 清理了 ${cleaned} 个过期缓存项`);
+            this.saveToCache();
+        }
+    }
+    
+    /**
      * 构建GitHub数据URL
      */
     buildGitHubUrl(filename) {

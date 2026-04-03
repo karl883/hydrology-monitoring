@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>水文监测分析系统 - 真实数据版</title>
-    <!-- ECharts图表库 -->
+    <!-- ECharts图表库 (多个CDN备用) -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script>
+        // ECharts备用加载方案
+        if (typeof echarts === 'undefined') {
+            console.warn('ECharts主CDN加载失败，尝试备用CDN...');
+            document.write('<script src="https://unpkg.com/echarts@5.4.3/dist/echarts.min.js"><\/script>');
+        }
+    </script>
     <!-- Font Awesome图标 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- 本地CSS -->
