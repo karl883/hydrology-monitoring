@@ -1,21 +1,49 @@
-﻿{
+{
   "reservoirs": [
     {
       "id": "res_001",
-      "name": "宝珠寺水库",
-      "basin": "嘉陵江流域",
+      "name": "?????",
+      "code": "BZS001",
+      "basin": "?????",
+      "location": {
+        "lat": 32.1234,
+        "lng": 105.6789
+      },
+      "capacity": 256000,
+      "status": "normal",
       "color": "#1890ff",
-      "status": "normal"
+      "description": "????????????"
     },
     {
-      "id": "res_002", 
-      "name": "紫坪铺水库",
-      "basin": "岷江流域",
+      "id": "res_002",
+      "name": "?????",
+      "code": "ZPP002",
+      "basin": "????",
+      "location": {
+        "lat": 31.2345,
+        "lng": 103.789
+      },
+      "capacity": 112400,
+      "status": "normal",
       "color": "#52c41a",
-      "status": "normal"
+      "description": "??????????"
+    },
+    {
+      "id": "res_003",
+      "name": "?????",
+      "code": "TZK003",
+      "basin": "?????",
+      "location": {
+        "lat": 32.3456,
+        "lng": 106.8901
+      },
+      "capacity": 412000,
+      "status": "normal",
+      "color": "#faad14",
+      "description": "????????????"
     }
   ],
-  "count": 2,
-  "updated_at": "2026-04-04T04:05:00.000Z",
-  "_source": "manual"
+  "count": 3,
+  "updated_at": "2026-04-04T06:30:00.000Z",
+  "_source": "proper_encoding"
 }

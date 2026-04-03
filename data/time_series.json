@@ -1,8 +1,8 @@
-﻿{
+{
   "data": [
     {
       "time": "2026-03-30T10:00:00.000Z",
-      "reservoir": "宝珠寺水库",
+      "reservoir": "?????",
       "water_level": 512.5,
       "inflow": 125.3,
       "outflow": 98.7,
@@ -10,16 +10,40 @@
     },
     {
       "time": "2026-03-30T11:00:00.000Z",
-      "reservoir": "宝珠寺水库",
+      "reservoir": "?????",
       "water_level": 513.2,
       "inflow": 128.1,
       "outflow": 102.4,
       "storage": 216500
+    },
+    {
+      "time": "2026-03-30T10:00:00.000Z",
+      "reservoir": "?????",
+      "water_level": 845.3,
+      "inflow": 85.6,
+      "outflow": 72.1,
+      "storage": 105000
+    },
+    {
+      "time": "2026-03-30T11:00:00.000Z",
+      "reservoir": "?????",
+      "water_level": 846.1,
+      "inflow": 87.2,
+      "outflow": 74.3,
+      "storage": 106200
+    },
+    {
+      "time": "2026-03-30T10:00:00.000Z",
+      "reservoir": "?????",
+      "water_level": 623.4,
+      "inflow": 210.5,
+      "outflow": 195.8,
+      "storage": 410000
     }
   ],
-  "count": 2,
+  "count": 5,
   "start_time": "2026-03-30T10:00:00.000Z",
   "end_time": "2026-03-30T11:00:00.000Z",
-  "updated_at": "2026-04-04T04:05:00.000Z",
-  "_source": "manual"
+  "updated_at": "2026-04-04T06:30:00.000Z",
+  "_source": "proper_encoding"
 }

@@ -1,16 +1,16 @@
-﻿{
-  "total_reservoirs": 2,
-  "total_data_points": 2,
-  "last_updated": "2026-04-04T04:05:00.000Z",
+{
+  "total_reservoirs": 3,
+  "total_data_points": 5,
+  "last_updated": "2026-04-04T06:30:00.000Z",
   "data_range": {
     "start": "2026-03-30T10:00:00.000Z",
     "end": "2026-03-30T11:00:00.000Z"
   },
   "statistics": {
-    "avg_water_level": 512.85,
-    "avg_inflow": 126.7,
-    "avg_outflow": 100.55,
-    "total_storage": 431500
+    "avg_water_level": 668.1,
+    "avg_inflow": 127.34,
+    "avg_outflow": 108.66,
+    "total_storage": 1052700
   },
-  "_source": "manual"
+  "_source": "proper_encoding"
 }
